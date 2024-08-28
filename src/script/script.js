@@ -1,4 +1,4 @@
-const API = "";  // API Key - именно API ключ вставь его для работы
+const API = ""; // API Key - именно API ключ вставь его для работы
 const mainWeatherNode = document.querySelector(".main__weather");
 
 //- отправить асинхронный запрос (название города)
@@ -30,16 +30,14 @@ async function getIp() {
   getLatLonWeather(myData.location.lat, myData.location.lng);
 }
 
-
 function getLatLonWeather(lat, lng) {
   fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&lang=ru&appid=${API}`
   )
     .then((res) => res.json())
     .then((res) => showCityWeather(res))
-    .catch((err) => console.log(err));
+    .catch((res) => thirdScreen(res));
 }
-
 
 //- отправить асинхронный запрос(геопозиция)
 async function getLocation({ coords }) {
@@ -65,9 +63,9 @@ function showCityWeather(obj) {
   console.log(obj);
   const firstScreen = document.createElement("div");
   firstScreen.className = "main__result__weather";
-  firstScreen.innerHTML = `<p class="main__weather__degrees">${Math.round(
-    obj.main.temp
-  )}℃</p>
+  firstScreen.innerHTML = `
+  <img class="main__img" src="https://openweathermap.org/img/wn/${obj.weather[0].icon}@2x.png" alt="Weather">
+  <p class="main__weather__degrees">${Math.round(obj.main.temp)}℃</p>
    <p class="main__weather__description">${obj.weather[0].description}</p>
             <p class="main__weather__in__city">${obj.name}</p>
             <button class="main__button__change__city">Поменять город</button>`;
